@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Dashboard</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f6fb;
+      color: #333;
+    }
+
+    /* Navbar */
+    header {
+      background: linear-gradient(135deg, #4e54c8, #8f94fb);
+      color: #fff;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    header a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      background: rgba(255,255,255,0.2);
+      padding: 8px 15px;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+    header a:hover {
+      background: rgba(255,255,255,0.4);
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1100px;
+      margin: 30px auto;
+    }
+
+    h2, h3 {
+      color: #4e54c8;
+      margin-bottom: 15px;
+      border-left: 5px solid #8f94fb;
+      padding-left: 10px;
+    }
+
+    /* Courses Grid */
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .course-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .course-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    }
+    .course-card h4 {
+      margin: 0 0 10px;
+      font-size: 1.2rem;
+      color: #333;
+    }
+    .course-card p {
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    .button {
+      display: inline-block;
+      background: linear-gradient(135deg, #4e54c8, #8f94fb);
+      color: white;
+      padding: 8px 15px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+    .button:hover {
+      background: #333;
+    }
+
+    /* Approved Courses Table */
+    .approved-course {
+      margin-top: 40px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    }
+    .approved-course h4 {
+      margin-top: 0;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+    th {
+      background: #f9f9ff;
+      color: #4e54c8;
+    }
+    tr:hover td {
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📚 Student Dashboard</h1>
+    <a href="/logout/">Logout</a>
+  </header>
+
+  <div class="container">
+    <h3>All Courses</h3>
+    <div class="course-grid">
+      {% for course in all_courses %}
+      <div class="course-card">
+        <h4>{{ course.title }}</h4>
+        <p>{{ course.description }}</p>
+        <a href="/join_course/{{ course.id }}/" class="button">Join Course</a>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="approved-course">
+      <h3>Approved Courses</h3>
+      {% for e in approved_courses %}
+      <h4>{{ e.course.title }}</h4>
+      <table>
+        <tr>
+          <th>Chapter</th>
+          <th>Lesson</th>
+          <th>Assignment</th>
+        </tr>
+        {% for chapter in e.course.chapters.all %}
+          {% for lesson in chapter.lessons.all %}
+          <tr>
+            <td>{{ chapter.title }}</td>
+            <td>
+              <a href="/view_lesson/{{ lesson.id }}/" style="text-decoration:none; color:#333; font-weight:500;">
+                {{ lesson.title }}
+              </a>
+            </td>
+            <td>
+              <a href="/assignment_view/{{ lesson.id }}/" class="button">View Assignment</a>
+            </td>
+          </tr>
+          {% endfor %}
+        {% endfor %}
+      </table>
+      {% empty %}
+      <p>No approved courses yet</p>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>

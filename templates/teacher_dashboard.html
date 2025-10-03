@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teacher Dashboard</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    :root {
+      --primary: #4e54c8;
+      --secondary: #8f94fb;
+      --success: #2a9d8f;
+      --danger: #e63946;
+      --bg: #f4f6fc;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: var(--bg);
+      color: #333;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.6rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    header a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      background: rgba(255,255,255,0.2);
+      padding: 10px 16px;
+      border-radius: 10px;
+      transition: 0.3s;
+    }
+    header a:hover {
+      background: rgba(0,0,0,0.25);
+    }
+
+    /* Container */
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 30px auto;
+    }
+
+    h3 {
+      margin: 25px 0 15px;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    /* Buttons */
+    .button {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 8px 14px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .delete { background: var(--danger); }
+    .approve { background: var(--success); }
+
+    /* Card Tables */
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      overflow: hidden;
+      transition: 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.12);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 14px 16px;
+      text-align: left;
+      font-size: 14px;
+    }
+    th {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
+    }
+    tr:nth-child(even) td {
+      background: #f9f9f9;
+    }
+    tr:hover td {
+      background: #f1f3fe;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header { flex-direction: column; gap: 10px; text-align: center; }
+      table, thead, tbody, th, tr, td { display: block; width: 100%; }
+      tr { margin-bottom: 15px; }
+      th { display: none; }
+      td {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+      }
+      td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: var(--primary);
+      }
+      .actions { flex-direction: column; gap: 6px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><i class="fa-solid fa-chalkboard-teacher"></i> Teacher Dashboard</h1>
+    <a href="/logout/"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+  </header>
+
+  <div class="container">
+    <a href="/create_course/" class="button"><i class="fa-solid fa-plus"></i> Create New Course</a>
+
+    <div class="card">
+      <h3>Your Courses</h3>
+      <table>
+        <thead>
+          <tr><th>Title</th><th>Description</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+          {% for course in courses %}
+          <tr>
+            <td data-label="Title">{{ course.title }}</td>
+            <td data-label="Description">{{ course.description }}</td>
+            <td data-label="Actions">
+              <div class="actions">
+                <a href="/add_chapter/{{ course.id }}/" class="button"><i class="fa-solid fa-plus"></i> Add Chapter</a>
+                <a href="/view_chapters/{{ course.id }}/" class="button"><i class="fa-solid fa-eye"></i> View Chapters</a>
+                <a href="{% url 'delete_course' course.id %}" class="button delete"><i class="fa-solid fa-trash"></i> Delete</a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>Pending Student Requests</h3>
+      <table>
+        <thead>
+          <tr><th>Student</th><th>Course</th><th>Action</th></tr>
+        </thead>
+        <tbody>
+          {% for req in pending_requests %}
+          <tr>
+            <td data-label="Student">{{ req.student.username }}</td>
+            <td data-label="Course">{{ req.course.title }}</td>
+            <td data-label="Action">
+              <div class="actions">
+                <a href="/approve_request/{{ req.id }}/" class="button approve"><i class="fa-solid fa-check"></i> Approve</a>
+              </div>
+            </td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="3">No pending requests</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

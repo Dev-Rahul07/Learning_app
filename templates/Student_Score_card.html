@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Score</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #4e54c8, #8f94fb);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .score-card {
+      background: #fff;
+      padding: 40px 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      text-align: center;
+      width: 350px;
+      animation: pop 0.6s ease-in-out;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .score-card h2 {
+      margin-bottom: 25px;
+      color: #333;
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+
+    .circle {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: conic-gradient(#4e54c8 calc(var(--percent) * 1%), #e0e0e0 0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      position: relative;
+    }
+
+    .circle span {
+      position: absolute;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #4e54c8;
+    }
+
+    .score-box {
+      margin: 10px 0;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .total {
+      background: #e3f2fd;
+      color: #1565c0;
+    }
+
+    .student {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+  </style>
+</head>
+<body>
+  <div class="score-card">
+    <h2>📊 Student Report</h2>
+
+    <!-- Circular Score Indicator -->
+    <div class="circle" style="--percent: calc({{ your_score }} / {{ total_score }} * 100);">
+      <span>{{ your_score }}/{{ total_score }}</span>
+    </div>
+
+    <!-- Scores -->
+    <div class="score-box total">Total Score: {{ total_score }}</div>
+    <div class="score-box student">Student Score: {{ your_score }}</div>
+  </div>
+</body>
+</html>

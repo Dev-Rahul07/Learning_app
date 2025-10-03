@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Add Question</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .card {
+      max-width: 600px;
+      width: 100%;
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      text-align: center;
+      color: #667eea;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    input[type="text"], select {
+      width: 100%;
+      padding: 12px 15px;
+      margin-top: 8px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: 0.3s;
+      outline: none;
+    }
+
+    input[type="text"]:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 6px rgba(102,126,234,0.4);
+    }
+
+    .options {
+      margin-top: 20px;
+    }
+
+    .option-input {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f9f9f9;
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    .option-input input[type="text"] {
+      flex: 1;
+      margin-right: 12px;
+    }
+
+    .option-input label {
+      font-weight: normal;
+      margin: 0;
+      color: #555;
+      font-size: 14px;
+    }
+
+    .option-input input[type="radio"] {
+      margin-right: 6px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 25px;
+      padding: 12px;
+      border-radius: 8px;
+      border: 0;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #333;
+      transform: scale(1.03);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Add Question</h1>
+    <form method="post">
+      {% csrf_token %}
+
+      <!-- Question Text -->
+      <label for="question">Question</label>
+      <input type="text" name="text" id="question" placeholder="Enter your question here..." required />
+
+      <!-- Options -->
+      <div class="options">
+        <label>Options</label>
+
+        <div class="option-input">
+          <input type="text" name="option1" placeholder="Option 1" required />
+          <label><input type="radio" name="correct_option" value="1" required /> Correct</label>
+        </div>
+
+        <div class="option-input">
+          <input type="text" name="option2" placeholder="Option 2" required />
+          <label><input type="radio" name="correct_option" value="2" /> Correct</label>
+        </div>
+
+        <div class="option-input">
+          <input type="text" name="option3" placeholder="Option 3" required />
+          <label><input type="radio" name="correct_option" value="3" /> Correct</label>
+        </div>
+
+        <div class="option-input">
+          <input type="text" name="option4" placeholder="Option 4" required />
+          <label><input type="radio" name="correct_option" value="4" /> Correct</label>
+        </div>
+      </div>
+
+      <button type="submit">Save Question</button>
+    </form>
+  </div>
+</body>
+</html>

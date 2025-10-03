@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lessons for "{{ chapter.title }}"</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f6fc;
+    }
+    header {
+      background: linear-gradient(135deg, #1d2671, #c33764);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 600;
+    }
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 14px;
+      text-align: left;
+    }
+    th {
+      background: #1d2671;
+      color: white;
+      font-weight: 600;
+    }
+    tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+    tr:hover {
+      background: #f1f1ff;
+      transition: 0.3s;
+    }
+
+    /* Buttons */
+    .button {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: 0.3s;
+      margin: 2px;
+    }
+    .button.add {
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      color: white;
+    }
+    .button.add:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .button.edit {
+      background: #4caf50;
+      color: white;
+    }
+    .button.edit:hover {
+      background: #388e3c;
+    }
+    .button.delete {
+      background: #e53935;
+      color: white;
+    }
+    .button.delete:hover {
+      background: #c62828;
+    }
+    .button.assignment {
+      background: #ff9800;
+      color: white;
+    }
+    .button.assignment:hover {
+      background: #e68900;
+    }
+    .button.back {
+      background: #777;
+      color: white;
+    }
+    .button.back:hover {
+      background: #444;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>📖 Lessons for "{{ chapter.title }}"</h1>
+  </header>
+
+  <div class="container">
+    <a href="/add_lesson/{{ chapter.id }}/" class="button add">➕ Add Lesson</a>
+
+    <table>
+      <tr>
+        <th>Lesson Title</th>
+        <th>Actions</th>
+      </tr>
+      {% for lesson in lessons %}
+      <tr>
+        <td>{{ lesson.title }}</td>
+        <td>
+          <a href="/update_lesson/{{ lesson.id }}/" class="button edit">✏️ Edit</a>
+          <a href="/delete_lesson/{{ lesson.id }}/" class="button delete">🗑 Delete</a>
+          <a href="/add_question/{{ lesson.id }}/" class="button assignment">📝 Add Assignment</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <a href="/view_chapters/{{ chapter.course.id }}/" class="button back">← Back to Chapters</a>
+  </div>
+
+</body>
+</html>

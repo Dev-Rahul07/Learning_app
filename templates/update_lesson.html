@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Lesson</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f4f6fc;
+      padding: 40px;
+      margin: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 30px 25px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #4e54c8;
+      font-size: 22px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    input,
+    textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: 0.3s;
+      font-family: inherit;
+    }
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #4e54c8;
+      box-shadow: 0 0 6px rgba(78,84,200,0.3);
+    }
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+    button {
+      padding: 12px;
+      background: linear-gradient(135deg, #4e54c8, #8f94fb);
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s ease-in-out;
+    }
+    button:hover {
+      background: #333;
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    a.back {
+      display: block;
+      text-align: center;
+      margin-top: 15px;
+      color: #4e54c8;
+      font-weight: 500;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    a.back:hover {
+      color: #333;
+      text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Mobile */
+    @media(max-width:600px){
+      .container { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Add Lesson to "{{ lesson.title }}"</h2>
+    <form method="POST">
+      {% csrf_token %}
+      <input type="text" value="{{ lesson.title }}" name="title" placeholder="Lesson Title" required />
+      <textarea name="content" placeholder="Lesson Content" required></textarea>
+      <input type="url" name="link" id="link" value="{{ lesson.video }}" placeholder="Enter Lesson Video Link" />
+      <button type="submit">➕ Add Lesson</button>
+    </form>
+    <a href="/teacher/dashboard/" class="back">← Back to Dashboard</a>
+  </div>
+</body>
+</html>
